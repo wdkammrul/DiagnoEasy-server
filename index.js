@@ -51,6 +51,11 @@ async function run() {
        res.send(result)
     })
 
+    app.get('/tests', async(req, res) => {
+       const result = await testCollection.find().toArray()
+       res.send(result)
+    })
+
     app.post('/banners', async(req, res) => {
        const banner = req.body
        const result = await bannerCollection.insertOne(banner)
