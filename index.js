@@ -12,7 +12,7 @@ app.use(cors())
 app.use(express.json())
 
 
-console.log(process.env.DB_PASS)
+// console.log(process.env.DB_PASS)
 
 
 const uri =
@@ -31,20 +31,46 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+
+ 
+    const userCollection = client.db('diagnoEasy').collection('users')
+    const testCollection = client.db('diagnoEasy').collection('tests')
+    const bannerCollection = client.db('diagnoEasy').collection('banners')
+    
+
+ 
+    app.post('/users', async(req, res) => {
+       const user = req.body
+       const result = await userCollection.insertOne(user)
+       res.send(result)
+    })
+
+    app.post('/tests', async(req, res) => {
+       const test = req.body
+       const result = await testCollection.insertOne(test)
+       res.send(result)
+    })
+
+    app.post('/banners', async(req, res) => {
+       const banner = req.body
+       const result = await bannerCollection.insertOne(banner)
+       res.send(result)
+    })
+
+
+
+
+    // // Send a ping to confirm a successful connection
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
-
-
-
 
 
 
