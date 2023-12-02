@@ -45,6 +45,11 @@ async function run() {
        res.send(result)
     })
 
+    app.get("/users", async (req, res) => {
+      const result = await userCollection.find().toArray();
+      res.send(result);
+    });
+
     app.post('/tests', async(req, res) => {
        const test = req.body
        const result = await testCollection.insertOne(test)
@@ -80,6 +85,11 @@ async function run() {
        const result = await bannerCollection.insertOne(banner)
        res.send(result)
     })
+
+     app.get("/banners", async (req, res) => {
+       const result = await bannerCollection.find().toArray();
+       res.send(result);
+     });
 
 
 
