@@ -26,7 +26,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const userCollection = client.db("diagnoEasy").collection("users");
     const testCollection = client.db("diagnoEasy").collection("tests");
@@ -86,11 +86,46 @@ async function run() {
       res.send(result);
     });
 
+    app.patch("/tests/:id", async (req, res) => {
+      const item = req.body;
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          testName: item.testName,
+          image: item.image,
+          testPrice: item.testPrice,
+          slots: item.slots,
+          date: item.date,
+          details: item.details,
+        },
+      };
+      const result = await testCollection.updateOne(filter, updatedDoc);
+      res.send(result);
+    });
+
+
     app.delete("/banners/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await bannerCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    app.delete("/tests/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await testCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.delete("/appointments/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await appointmentCollection.deleteOne(query);
       res.send(result);
     });
 
