@@ -50,6 +50,8 @@ async function run() {
       res.send(result);
     });
 
+  
+
     app.post('/tests', async(req, res) => {
        const test = req.body
        const result = await testCollection.insertOne(test)
