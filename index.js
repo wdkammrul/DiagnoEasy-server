@@ -94,7 +94,7 @@ async function run() {
         $set: {
           testName: item.testName,
           image: item.image,
-          testPrice: item.testPrice,
+          testPrice: item.testPrice,                                                
           slots: item.slots,
           date: item.date,
           details: item.details,
